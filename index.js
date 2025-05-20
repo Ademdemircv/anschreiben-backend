@@ -10,9 +10,9 @@ const app = express();
 const port = process.env.PORT || 3001;
 const upload = multer({ storage: multer.memoryStorage() });
 
-// ✅ CORS-Freigabe (für Entwicklung oder Vercel-Frontend)
+// ✅ CORS-Freigabe (für Entwicklung und Vercel-Frontend)
 const corsOptions = {
-  origin: '*', // Oder 'https://deine-vercel-url.vercel.app'
+  origin: ['http://localhost:3000', 'https://online-anschreiben.vercel.app'],
   methods: ['POST'],
 };
 app.use(cors(corsOptions));

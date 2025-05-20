@@ -10,7 +10,13 @@ const app = express();
 const port = process.env.PORT || 3001;
 const upload = multer({ storage: multer.memoryStorage() });
 
-app.use(cors());
+// ✅ CORS-Freigabe (für Entwicklung oder Vercel-Frontend)
+const corsOptions = {
+  origin: '*', // Oder 'https://deine-vercel-url.vercel.app'
+  methods: ['POST'],
+};
+app.use(cors(corsOptions));
+
 app.use(express.json());
 
 const openai = new OpenAI({

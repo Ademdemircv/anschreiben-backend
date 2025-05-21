@@ -38,30 +38,47 @@ app.post('/generate', upload.fields([{ name: 'cv' }, { name: 'job' }]), async (r
     const jobText = await extractTextFromFile(req.files['job'][0]);
 
     const prompt = `
-Erstelle ein vollständiges, druckfertiges und überzeugendes Bewerbungsschreiben auf Deutsch für die untenstehende Stellenanzeige – auf Basis des Lebenslaufs.
+Erstelle ein vollständiges, druckfertiges und überzeugendes Bewerbungsschreiben auf Deutsch für die untenstehende Stellenanzeige – auf Basis des Lebenslaufs. Berücksichtige dabei automatisch:
+
+▸ Zielgruppe:
+Erkenne aus dem Profil, ob es sich um Berufsanfänger, Quereinsteiger oder erfahrene Fachkräfte handelt.
+
+▸ Tonalität (automatisch erkennen & anpassen):
+- Klassisch-seriös für Banken, Industrie, Recht.
+- Modern-aktiv für IT, Startups, Technik.
+- Kreativ für Marketing, Design, Agenturen.
 
 ▸ Datenquellen:
 - Lebenslauf: ${cvText}
 - Stellenanzeige: ${jobText}
 
-Du bist ein Experte für berufliche Kommunikation und erstellst **maßgeschneiderte Bewerbungsschreiben**. Deine Aufgabe ist es, auf Basis eines Bewerber-Lebenslaufs und einer Stellenanzeige ein professionelles **Anschreiben** zu verfassen.
+▸ Format:
+1. Absender (Name, Adresse, PLZ Ort, Telefon, E-Mail)
+2. Leerzeile
+3. Empfänger (Unternehmen, Ansprechpartner, Adresse)
+4. Leerzeile
+5. Ort + aktuelles Datum (rechtsbündig)
+6. Leerzeile
+7. Betreff fett: „Bewerbung als [Position] – [Referenznummer]“
+8. Leerzeile
+9. Anrede (wenn Name nicht da: „Sehr geehrtes Recruiting-Team von [Firma]“)
+10. Einleitung: Begeisterung + Bezug auf Projekt/Produkt/Wert aus Anzeige
+11. Hauptteil: 
+   ▸ 2–3 relevante Stärken als SAR-Statements (Situation – Aktion – Resultat)
+   ▸ UVP-Satz: „Meine Kombination aus [A] + [B] ermöglicht [Nutzen für das Unternehmen]“
+   ▸ Bezug auf 2–3 Begriffe aus Anzeige
+12. Schluss: Gesprächswunsch + Dank
+13. Leerzeile
+14. Grußformel: „Mit freundlichen Grüßen“
+15. Name
 
-**Kontext:** Bewerbung für die Position **[STELLENBEZEICHNUNG]** bei **[UNTERNEHMENSNAME]**.
+▸ Stilregeln:
+- Max. 1 DIN-A4-Seite, aktiv formuliert („Ich steigerte…“, „Ich konzipierte…“)
+- Keine Floskeln, kein Copy-Paste-Stil
+- Sinnvolle Absätze & Zeilenumbrüche für saubere PDF-Ausgabe
 
-**Stellenanzeige:**  
-[Stellenanzeige einfügen]
-
-**Lebenslauf des Bewerbers:**  
-[Lebenslauf einfügen]
-
-**Anforderungen an das Anschreiben:**  
-- **Format:** Enthält Absender (Name, Anschrift des Bewerbers aus dem Lebenslauf), Empfänger (Unternehmensname und Adresse aus der Stellenanzeige), Ort und aktuelles Datum (Ort = Wohnort des Bewerbers, Datum im Format "TT. Monat JJJJ"), Betreff mit Stellenbezeichnung, Anrede (mit Namen der Ansprechperson laut Anzeige; falls unbekannt, "Sehr geehrte Damen und Herren"), Einleitung, Hauptteil, Schlussabsatz, Grußformel ("Mit freundlichen Grüßen") und den vollen Namen des Bewerbers. Das Anschreiben soll maximal **eine DIN-A4-Seite** lang sein (ca. 350 Wörter).  
-- **Tonfall:** Passe Sprache und Stil automatisch der Branche und Unternehmenskultur an. Für konservative Branchen (z. B. Banken, Recht) wähle einen klassisch-seriösen Ton. Für Tech/Startup-Unternehmen wähle einen modern-dynamischen, motivierten Ton. Für kreative Branchen (z. B. Design, Marketing) wähle einen kreativ-lockeren, trotzdem professionellen Ton.  
-- **Inhalt & Struktur:** Nutze die Informationen aus Lebenslauf und Stellenanzeige, um ein **individuelles** Anschreiben zu formulieren. Hebe relevante **Qualifikationen, Erfahrungen und Erfolge** des Bewerbers hervor, die zur Stelle passen. Integriere im Hauptteil **1–2 prägnante Erfolgsbeispiele nach dem SAR-Prinzip** (Situation – Aktion – Resultat), um die Fähigkeiten des Bewerbers zu belegen. Gehe auf Anforderungen und **Keywords** aus der Stellenanzeige ein und zeige, wie der Bewerber diese erfüllt. Baue außerdem einen **UVP-Satz** ein, der die einzigartige Kombination des Bewerbers hervorhebt (z. B.: *„Meine Kombination aus X und Y ermöglicht Z.“*). Stelle einen Bezug zum **Unternehmen** her (z. B. Werte, Projekte oder Erfolge der Firma, die den Bewerber motivieren).  
-- **Stil:** Formuliere **aktiv**, präzise und fehlerfrei. Vermeide Konjunktiv-Floskeln wie "würde" oder abgenutzte Phrasen. Schreibe selbstbewusst, klar und **überzeugend**, ohne übertriebene Ausschmückungen.
-
-**Ausgabe:**  
-Gib das vollständige Anschreiben als **finalen, druckfertigen Fließtext** aus – ohne Markdown, Aufzählungszeichen oder Platzhalter. Der Text soll wie ein fertiges Dokument klingen, das der Bewerber direkt versenden kann.
+▸ WICHTIG:
+Antworte ausschließlich mit dem finalen Fließtext. Kein Markdown, keine Erklärungen.
 `;
 
     const completion = await openai.chat.completions.create({

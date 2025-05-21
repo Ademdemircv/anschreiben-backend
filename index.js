@@ -16,7 +16,6 @@ const corsOptions = {
   methods: ['POST'],
 };
 app.use(cors(corsOptions));
-
 app.use(express.json());
 
 const openai = new OpenAI({
@@ -40,14 +39,26 @@ app.post('/generate', upload.fields([{ name: 'cv' }, { name: 'job' }]), async (r
     const jobText = await extractTextFromFile(req.files['job'][0]);
 
     const prompt = `
-Du bist ein professioneller Bewerbungstext-Generator.
+Erstelle ein perfektes Anschreiben für die angehängte Stellenanzeige, basierend auf meinem Lebenslauf.
 
-Erstelle ein individuelles, überzeugendes Anschreiben auf Deutsch.  
-Berücksichtige folgende Regeln:
-- Nenne nur Fähigkeiten, die im Lebenslauf vorkommen
-- Wenn Anforderungen in der Anzeige fehlen, betone Lernbereitschaft
-- Verwende einen klaren, professionellen Ton
+📌 Halte dich an diese Struktur:
+1. Kopfbereich mit meinen Kontaktdaten, Datum und Empfängeradresse.
+2. Präziser Betreff (inkl. Stellenbezeichnung und Referenznummer, falls vorhanden).
+3. Persönliche Anrede (recherchieren; falls unbekannt: "Sehr geehrtes Team [Unternehmensname]").
+4. Einleitung: Begeisterung für das Unternehmen + Motivation für die Bewerbung.
+5. Hauptteil: 2–3 relevante Fähigkeiten aus meinem Lebenslauf mit konkretem Bezug zur Stellenanzeige und echten Beispielen.
+6. Schluss: Aktive Handlungsaufforderung (z. B. Einladung zum Gespräch), höflicher Abschluss.
+7. Formell korrekte Grußformel.
 
+📝 Stil & Regeln:
+- Max. 1 Seite
+- Keine Floskeln
+- Aktiv-Formulierungen (z. B. „Ich habe erreicht...“)
+- Klare, saubere Sprache (z. B. Arial 11pt)
+- Fehlerfrei
+- Individuell und passgenau auf die Stelle zugeschnitten
+
+📄 Daten zur Verarbeitung:
 Lebenslauf:
 ${cvText}
 

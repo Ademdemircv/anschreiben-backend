@@ -53,7 +53,7 @@ Erzeuge den Text in folgender Form (mit Zeilenumbrüchen):
 4. Leerzeile
 5. Ort, aktuelles Datum (z. B. „Dortmund, 3. Juni 2025“)
 6. Leerzeile
-7. Betreffzeile fett formatiert: **„Bewerbung als [Position] – [Referenznummer]“**
+7. Betreffzeile fett formatiert: „Bewerbung als [Position] – [Referenznummer]“ (Nur wenn eine Referenznummer vorhanden ist, und dann wirklich nur - Referenznummer)
 8. Leerzeile
 9. Persönliche Anrede
 10. Einleitung mit Begeisterung für das Unternehmen und Bezug auf Projekt/Wert/Produkt

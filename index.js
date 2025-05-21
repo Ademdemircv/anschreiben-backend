@@ -38,35 +38,43 @@ app.post('/generate', upload.fields([{ name: 'cv' }, { name: 'job' }]), async (r
     const jobText = await extractTextFromFile(req.files['job'][0]);
 
     const prompt = `
-Erstelle ein individuelles, fehlerfreies und überzeugendes Bewerbungsschreiben auf Deutsch für die untenstehende Stellenanzeige – basierend auf dem Lebenslauf.
+Erstelle ein vollständiges, druckfertiges und überzeugendes Bewerbungsschreiben auf Deutsch für die untenstehende Stellenanzeige – auf Basis des Lebenslaufs.
 
 ▸ Datenquellen:
 - Lebenslauf: ${cvText}
 - Stellenanzeige: ${jobText}
 
-▸ Struktur:
-1. Kopfbereich: Kontaktdaten, aktuelles Datum, Empfängeradresse
-2. Betreffzeile: „Bewerbung als [exakter Stellentitel] – [Referenznummer]“
-3. Persönliche Anrede (wenn Name fehlt: „Sehr geehrtes Recruiting Team von [Unternehmen]“)
-4. Einleitung: Persönliche Motivation und Bezug zum Unternehmen (inkl. Projekt, Wert oder Produkt – falls nennbar)
-5. Hauptteil:
-   - Zwei konkrete Stärken aus dem Lebenslauf, formuliert als SAR-Statements (Situation, Aktion, Resultat)
-   - Eine Soft Skill + Kontextbeispiel
-   - UVP-Satz: „Meine Kombination aus [Fähigkeit A] + [Fähigkeit B] ermöglicht [klaren Nutzen für das Unternehmensziel aus der Anzeige]“
-   - Bezug zu drei Schlüsselwörtern aus der Stellenanzeige
-6. Schluss:
-   - „Gerne erläutere ich im Gespräch, wie ich [konkretes Unternehmensziel] unterstützen kann.“
-   - Kurzer Dank, professionelle Grußformel
+▸ Format:  
+Erzeuge den Text in folgender Form (mit Zeilenumbrüchen):
 
-▸ Stilregeln:
+1. Absender (Name, Adresse, PLZ Ort, Telefon, E-Mail)
+2. Leerzeile
+3. Empfänger (Unternehmen, Ansprechpartner – wenn möglich, Adresse, Ort)
+4. Leerzeile
+5. Ort, aktuelles Datum (z. B. „Dortmund, 3. Juni 2025“)
+6. Leerzeile
+7. Betreffzeile fett formatiert: **„Bewerbung als [Position] – [Referenznummer]“**
+8. Leerzeile
+9. Persönliche Anrede
+10. Einleitung mit Begeisterung für das Unternehmen und Bezug auf Projekt/Wert/Produkt
+11. Hauptteil mit SAR-Statements (2–3 zentrale Kompetenzen + Resultate)
+12. UVP-Satz: „Meine Kombination aus [A] + [B] ermöglicht [Nutzen für Unternehmen]“
+13. Bezug auf 2–3 Schlüsselbegriffe aus der Anzeige
+14. Schluss mit Gesprächsaufforderung & Dank
+15. Leerzeile
+16. Grußformel („Mit freundlichen Grüßen“)
+17. Name, E-Mail, Telefonnummer
+
+▸ Stil:
 - Maximal 1 DIN-A4-Seite
-- Aktive Formulierungen („Ich realisierte…“, „Ich steigerte…“)
-- Keine Floskeln – sondern Begriffe aus der Stellenanzeige und Branche
-- Ton: Professionell, klar, dynamisch
+- Aktive Sprache („Ich optimierte…“, „Ich steigerte…“)
+- Keine Floskeln – stattdessen echte Branchensprache und Stellenbezug
+- Klar strukturiert für direkte PDF-Ausgabe
 
-▸ Wichtige Regeln:
-- Antworte nur mit dem finalen Bewerbungsanschreiben als reiner Fließtext.
-- Keine Einleitungen, Erklärungen oder Formatierungen.
+▸ WICHTIG:
+- Antworte **nur mit dem finalen Fließtext**
+- Keine Erklärungen, Platzhalter oder Markdown
+- Setze sinnvolle Absätze & Leerzeilen für gute Lesbarkeit
 `;
 
     const completion = await openai.chat.completions.create({

@@ -10,7 +10,6 @@ const app = express();
 const port = process.env.PORT || 3001;
 const upload = multer({ storage: multer.memoryStorage() });
 
-// ✅ CORS-Freigabe (für Entwicklung und Vercel-Frontend)
 const corsOptions = {
   origin: ['http://localhost:3000', 'https://online-anschreiben.vercel.app'],
   methods: ['POST'],
@@ -39,35 +38,46 @@ app.post('/generate', upload.fields([{ name: 'cv' }, { name: 'job' }]), async (r
     const jobText = await extractTextFromFile(req.files['job'][0]);
 
     const prompt = `
-Erstelle ein individuelles, fehlerfreies Anschreiben nach diesen Kriterien:
+Erstelle ein individuelles, überzeugendes und fehlerfreies Anschreiben auf Deutsch basierend auf den folgenden Daten:
 
-▸ **Datenquellen**:  
-- Lebenslauf: ${cvText}  
-- Stellenanzeige: ${jobText}  
+▸ Lebenslauf: ${cvText}  
+▸ Stellenanzeige: ${jobText}  
 
-▸ **Struktur**:  
-1. **Kopfbereich**: Meine Kontaktdaten, Datum, Empfängeradresse.  
-2. **Betreff**: „Bewerbung als [exakte Stellenbezeichnung] – [Referenznummer]“.  
-3. **Anrede**: Namen recherchieren (falls nicht möglich: „Sehr geehrtes Team [Unternehmen]“).  
-4. **Einleitung**:  
-   - Nenne 1 aktuelles Unternehmensprojekt/-wert aus der Stellenanzeige/Website.  
-   - Verknüpfe es mit meiner Motivation („Warum ihr?“ + „Warum ich?“).  
-5. **Hauptteil**:  
-   - **Top-2 Hard Skills** aus dem Lebenslauf, die exakt den „Must-Haves“ der Anzeige entsprechen – jeweils mit Story (Kontext + Aktion + Ergebnis).  
-   - **1 Soft Skill** + Beispiel, wie er im Job eingesetzt wird.  
-   - **UVP-Satz**: „Meine Kombination aus [X] + [Y] ermöglicht [konkreten Nutzen für das Unternehmen].“  
-6. **Schluss**:  
-   - „Ich würde gerne in einem Gespräch erläutern, wie ich [spezielles Unternehmensziel] unterstützen kann.“  
-   - Kurzer Dank.  
+Halte dich an diese Struktur und Regeln:
 
-▸ **Regeln**:  
-- **1 Seite**, aktiv formuliert („Ich entwickelte…“, „Ich steigerte…“).  
-- **0 Floskeln** – stattdessen Keywords aus der Anzeige (z. B. „agile Prozesse“, „Kundenjourney“).  
-- **Design**: Wie Lebenslauf (Schriftart, Größe), keine Farben/Logos.  
-- **Tonalität**: Professionell, aber dynamisch (kein „sehr geehrte Damen und Herren“).  
+1. Kopfbereich  
+   – Mein Name, Adresse, E-Mail, Telefonnummer  
+   – Datum automatisch generieren  
+   – Empfängeradresse (aus Stellenanzeige oder „thyssenkrupp Bilstein GmbH“)
 
-**Antworte NUR mit dem fertigen Anschreiben – keine Erklärungen oder Markdown.**
-    `;
+2. Betreff  
+   – „Bewerbung als [Stellenbezeichnung] – [Referenznummer]“
+
+3. Anrede  
+   – Falls kein Name vorhanden: „Sehr geehrtes Recruiting-Team der thyssenkrupp Bilstein GmbH“
+
+4. Einleitung  
+   – Begeisterung für das Unternehmen (z. B. technologische Marktführerschaft, Motorsport etc.)  
+   – Warum diese Position? Warum ich?
+
+5. Hauptteil  
+   – Zwei konkrete Hard Skills aus dem Lebenslauf, passend zu den Must-Haves der Anzeige  
+   – Ein Soft Skill mit Beispiel (z. B. interkulturelle Kommunikation)  
+   – Bezug auf Osteuropa-Erfahrung oder internationale Kundenarbeit  
+   – Vertragsverhandlung/CRM-Systeme erwähnen, wenn im Lebenslauf vorhanden  
+   – Nutzenversprechen: Was bringt meine Kombination dem Unternehmen?
+
+6. Schluss  
+   – Gesprächsbereitschaft signalisieren  
+   – Dank für die Zeit  
+   – Formell abschließen: „Mit freundlichen Grüßen, Adem Demir“
+
+Weitere Regeln:  
+– Max. 1 Seite, aktive Sprache („Ich steigerte…“)  
+– Keine Floskeln  
+– Formaler, aber dynamischer Ton (kein „Sehr geehrte Damen und Herren“)  
+– Nur das fertige Anschreiben zurückgeben, keine Erklärungen oder Markdown
+`;
 
     const completion = await openai.chat.completions.create({
       model: 'gpt-3.5-turbo',

@@ -44,37 +44,24 @@ Erstelle ein vollständiges, druckfertiges und überzeugendes Bewerbungsschreibe
 - Lebenslauf: ${cvText}
 - Stellenanzeige: ${jobText}
 
-▸ Format:  
-Erzeuge den Text in folgender Form (mit Zeilenumbrüchen):
+Du bist ein Experte für berufliche Kommunikation und erstellst **maßgeschneiderte Bewerbungsschreiben**. Deine Aufgabe ist es, auf Basis eines Bewerber-Lebenslaufs und einer Stellenanzeige ein professionelles **Anschreiben** zu verfassen.
 
-1. Absender (Name, Adresse, PLZ Ort, Telefon, E-Mail)
-2. Leerzeile
-3. Empfänger (Unternehmen, Ansprechpartner – wenn möglich, Adresse, Ort)
-4. Leerzeile
-5. Ort, aktuelles Datum Rechtsbündig: „[Ort], [TT. Monat JJJJ]“ (z. B. „Berlin, 15. Juni 2024“) (finde aktuelles datum heraus)
-6. Leerzeile
-7. Betreffzeile fett formatiert, präzise: „Bewerbung als [Position] – Ref.-Nr. [XYZ]“.
-8. Leerzeile
-9. Persönliche Anrede, Alternativ: „Sehr geehrtes Recruiting-Team [Firma],“.
-10. Einleitung mit Begeisterung für das Unternehmen und Bezug auf Projekt/Wert/Produkt und Unternehmensbezug
-11. Hauptteil mit SAR-Statements (mit Story als Kontext, falls keine Informationen für eine Story vorhanden erfinde etwas passendes) (2–3 zentrale Kompetenzen + Resultate)
-12. UVP-Satz (nicht zu passiv): „Meine Kombination aus [A] + [B] ermöglicht [Nutzen für Unternehmen]“
-13. Bezug auf 2–3 Schlüsselbegriffe aus der Anzeige
-14. Schluss mit Gesprächsaufforderung & Dank
-15. Leerzeile
-16. Grußformel („Mit freundlichen Grüßen“) (ohne , danach)
-17. Name
+**Kontext:** Bewerbung für die Position **[STELLENBEZEICHNUNG]** bei **[UNTERNEHMENSNAME]**.
 
-▸ Stil:
-- Maximal 1 DIN-A4-Seite
-- Aktive Sprache („Ich optimierte…“, „Ich steigerte…“)
-- Keine Floskeln – stattdessen echte Branchensprache und Stellenbezug
-- Klar strukturiert für direkte PDF-Ausgabe
+**Stellenanzeige:**  
+[Stellenanzeige einfügen]
 
-▸ WICHTIG:
-- Antworte **nur mit dem finalen Fließtext**
-- Keine Erklärungen, Platzhalter oder Markdown
-- Setze sinnvolle Absätze & Leerzeilen für gute Lesbarkeit
+**Lebenslauf des Bewerbers:**  
+[Lebenslauf einfügen]
+
+**Anforderungen an das Anschreiben:**  
+- **Format:** Enthält Absender (Name, Anschrift des Bewerbers aus dem Lebenslauf), Empfänger (Unternehmensname und Adresse aus der Stellenanzeige), Ort und aktuelles Datum (Ort = Wohnort des Bewerbers, Datum im Format "TT. Monat JJJJ"), Betreff mit Stellenbezeichnung, Anrede (mit Namen der Ansprechperson laut Anzeige; falls unbekannt, "Sehr geehrte Damen und Herren"), Einleitung, Hauptteil, Schlussabsatz, Grußformel ("Mit freundlichen Grüßen") und den vollen Namen des Bewerbers. Das Anschreiben soll maximal **eine DIN-A4-Seite** lang sein (ca. 350 Wörter).  
+- **Tonfall:** Passe Sprache und Stil automatisch der Branche und Unternehmenskultur an. Für konservative Branchen (z. B. Banken, Recht) wähle einen klassisch-seriösen Ton. Für Tech/Startup-Unternehmen wähle einen modern-dynamischen, motivierten Ton. Für kreative Branchen (z. B. Design, Marketing) wähle einen kreativ-lockeren, trotzdem professionellen Ton.  
+- **Inhalt & Struktur:** Nutze die Informationen aus Lebenslauf und Stellenanzeige, um ein **individuelles** Anschreiben zu formulieren. Hebe relevante **Qualifikationen, Erfahrungen und Erfolge** des Bewerbers hervor, die zur Stelle passen. Integriere im Hauptteil **1–2 prägnante Erfolgsbeispiele nach dem SAR-Prinzip** (Situation – Aktion – Resultat), um die Fähigkeiten des Bewerbers zu belegen. Gehe auf Anforderungen und **Keywords** aus der Stellenanzeige ein und zeige, wie der Bewerber diese erfüllt. Baue außerdem einen **UVP-Satz** ein, der die einzigartige Kombination des Bewerbers hervorhebt (z. B.: *„Meine Kombination aus X und Y ermöglicht Z.“*). Stelle einen Bezug zum **Unternehmen** her (z. B. Werte, Projekte oder Erfolge der Firma, die den Bewerber motivieren).  
+- **Stil:** Formuliere **aktiv**, präzise und fehlerfrei. Vermeide Konjunktiv-Floskeln wie "würde" oder abgenutzte Phrasen. Schreibe selbstbewusst, klar und **überzeugend**, ohne übertriebene Ausschmückungen.
+
+**Ausgabe:**  
+Gib das vollständige Anschreiben als **finalen, druckfertigen Fließtext** aus – ohne Markdown, Aufzählungszeichen oder Platzhalter. Der Text soll wie ein fertiges Dokument klingen, das der Bewerber direkt versenden kann.
 `;
 
     const completion = await openai.chat.completions.create({

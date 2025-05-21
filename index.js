@@ -10,7 +10,6 @@ const app = express();
 const port = process.env.PORT || 3001;
 const upload = multer({ storage: multer.memoryStorage() });
 
-// CORS für lokale Entwicklung + Vercel-Frontend
 const corsOptions = {
   origin: ['http://localhost:3000', 'https://online-anschreiben.vercel.app'],
   methods: ['POST'],
@@ -39,52 +38,34 @@ app.post('/generate', upload.fields([{ name: 'cv' }, { name: 'job' }]), async (r
     const jobText = await extractTextFromFile(req.files['job'][0]);
 
     const prompt = `
-Erstelle ein überzeugendes, individuelles Anschreiben auf Deutsch für eine Bewerbung. Verwende folgende Daten:
+Erstelle ein individuelles, fehlerfreies und überzeugendes Anschreiben auf Deutsch für die angehängte Stellenanzeige – basierend auf dem Lebenslauf. Beachte folgende Vorgaben:
 
-▸ **Lebenslauf**:
-${cvText}
+▸ **Datenquellen**:  
+- Lebenslauf: ${cvText}  
+- Stellenanzeige: ${jobText}  
 
-▸ **Stellenanzeige**:
-${jobText}
+▸ **Struktur**:  
+1. Kopfbereich mit Kontaktdaten, Datum, Empfängeradresse  
+2. Aussagekräftiger Betreff: „Bewerbung als [Stellentitel] – [Referenznummer]“  
+3. Persönliche Anrede (wenn Name fehlt: „Sehr geehrtes Recruiting Team von [Unternehmen]“)  
+4. Einleitung: Persönliche Motivation & Bezug zum Unternehmen (Nennung eines aktuellen Projekts/Werts, falls auffindbar)  
+5. Hauptteil:  
+   - **2–3 zentrale Stärken** aus dem Lebenslauf als SAR-Statements:  
+     *Situation* (Problem/Kontext) → *Aktion* (deine Maßnahme) → *Resultat* (quantifiziert).  
+   - **UVP-Satz**: „Meine Kombination aus [Fähigkeit A] + [Fähigkeit B] ermöglicht [konkreten Nutzen für Unternehmensziel aus der Anzeige].“  
+   - Bezug zu **3 Schlüsselwörtern** aus der Stellenanzeige (z. B. „OEM-Kunden“, „agile Transformation“)  
+6. Schluss:  
+   - „Gerne erläutere ich im Gespräch, wie ich [Unternehmensziel] vorantreiben kann.“  
+   - Kurzer Dank + Grußformel  
 
-▸ **Ziel**:
-Ein Bewerbungsschreiben mit maximal einer Seite Länge, das präzise, fehlerfrei und verkaufsstark ist. 
-
-▸ **Struktur**:
-
-1. **Kopfbereich**  
-   – Kontaktdaten des Bewerbers  
-   – Datum  
-   – Empfängeradresse  
-
-2. **Betreff**  
-   – „Bewerbung als [exakte Stellenbezeichnung] – [Referenznummer]“  
-
-3. **Anrede**  
-   – Falls kein Name: „Sehr geehrtes Recruiting Team von [Unternehmen]“  
-
-4. **Einleitung**  
-   – Sofortiger Nutzenversprechen: „Als [Beruf] mit Erfahrung in [relevantem Bereich]…“  
-   – Konkrete Motivation: Bezug zu Unternehmenswerten, Projekten oder Standort  
-
-5. **Hauptteil**  
-   – Hebe **2–3 Hard Skills** mit konkreten Erfolgsbeispielen hervor (inkl. Kontext, Handlung, Ergebnis)  
-   – Zeige **1 Soft Skill** in einer glaubwürdigen Alltagssituation  
-   – Formuliere einen **UVP-Satz**: „Meine Kombination aus [X] + [Y] ermöglicht [konkreter Mehrwert]“  
-
-6. **Schluss**  
-   – Aktive Einladung zum Gespräch  
-   – Kurzer, positiver Abschlusssatz und Grußformel  
-
-▸ **Stilvorgaben**:  
-– Aktiv formulieren („Ich leitete…“, „Ich erzielte…“)  
-– Keine Floskeln oder Wiederholungen  
-– Nutze Keywords aus der Stellenanzeige  
-– Keine Metaphern oder emotional aufgeladene Sprache  
-– Kein „Hiermit bewerbe ich mich…“
+▸ **Stilregeln**:  
+- Max. 1 Seite, aktiv formuliert („Ich initiierte…“, „Ich steigerte…“)  
+- **0 Floskeln** – stattdessen Fachjargon der Branche/Stellenanzeige  
+- Tonalität: Dynamisch-professionell (Vermeide Passivsätze wie „Es wurde umgesetzt…“)  
 
 ▸ **Wichtig**:  
-Antworte **ausschließlich mit dem fertigen Anschreiben** – kein Kommentar, keine Erklärungen.
+- Antworte **nur mit dem finalen Fließtext**.  
+- Keine Markdown, Erklärungen oder Platzhalter.
 `;
 
     const completion = await openai.chat.completions.create({

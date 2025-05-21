@@ -51,19 +51,19 @@ Erzeuge den Text in folgender Form (mit Zeilenumbrüchen):
 2. Leerzeile
 3. Empfänger (Unternehmen, Ansprechpartner – wenn möglich, Adresse, Ort)
 4. Leerzeile
-5. Ort, aktuelles Datum (z. B. „Dortmund, 3. Juni 2025“)
+5. Ort, aktuelles Datum Rechtsbündig: „[Ort], [TT. Monat JJJJ]“ (z. B. „Berlin, 15. Juni 2024“) (finde aktuelles datum heraus)
 6. Leerzeile
-7. Betreffzeile fett formatiert: „Bewerbung als [Position] – [Referenz/Stellen-ID]“ (Nur wenn eine Referenz/Stellen-ID vorhanden ist, und dann wirklich nur - Referenz/Stellen-ID einsetzten)
+7. Betreffzeile fett formatiert, präzise: „Bewerbung als [Position] – Ref.-Nr. [XYZ]“.
 8. Leerzeile
-9. Persönliche Anrede
-10. Einleitung mit Begeisterung für das Unternehmen und Bezug auf Projekt/Wert/Produkt
-11. Hauptteil mit SAR-Statements (2–3 zentrale Kompetenzen + Resultate)
-12. UVP-Satz: „Meine Kombination aus [A] + [B] ermöglicht [Nutzen für Unternehmen]“
+9. Persönliche Anrede, Alternativ: „Sehr geehrtes Recruiting-Team [Firma],“.
+10. Einleitung mit Begeisterung für das Unternehmen und Bezug auf Projekt/Wert/Produkt und Unternehmensbezug
+11. Hauptteil mit SAR-Statements (mit Story als Kontext, falls keine Informationen für eine Story vorhanden erfinde etwas passendes) (2–3 zentrale Kompetenzen + Resultate)
+12. UVP-Satz (nicht zu passiv): „Meine Kombination aus [A] + [B] ermöglicht [Nutzen für Unternehmen]“
 13. Bezug auf 2–3 Schlüsselbegriffe aus der Anzeige
 14. Schluss mit Gesprächsaufforderung & Dank
 15. Leerzeile
-16. Grußformel („Mit freundlichen Grüßen“)
-17. Name, E-Mail, Telefonnummer
+16. Grußformel („Mit freundlichen Grüßen“) (ohne , danach)
+17. Name
 
 ▸ Stil:
 - Maximal 1 DIN-A4-Seite

@@ -38,34 +38,35 @@ app.post('/generate', upload.fields([{ name: 'cv' }, { name: 'job' }]), async (r
     const jobText = await extractTextFromFile(req.files['job'][0]);
 
     const prompt = `
-Erstelle ein individuelles, fehlerfreies und überzeugendes Anschreiben auf Deutsch für die angehängte Stellenanzeige – basierend auf dem Lebenslauf. Beachte folgende Vorgaben:
+Erstelle ein individuelles, fehlerfreies und überzeugendes Bewerbungsschreiben auf Deutsch für die untenstehende Stellenanzeige – basierend auf dem Lebenslauf.
 
-▸ **Datenquellen**:  
-- Lebenslauf: ${cvText}  
-- Stellenanzeige: ${jobText}  
+▸ Datenquellen:
+- Lebenslauf: ${cvText}
+- Stellenanzeige: ${jobText}
 
-▸ **Struktur**:  
-1. Kopfbereich mit Kontaktdaten, Datum, Empfängeradresse  
-2. Aussagekräftiger Betreff: „Bewerbung als [Stellentitel] – [Referenznummer]“  
-3. Persönliche Anrede (wenn Name fehlt: „Sehr geehrtes Recruiting Team von [Unternehmen]“)  
-4. Einleitung: Persönliche Motivation & Bezug zum Unternehmen (Nennung eines aktuellen Projekts/Werts, falls auffindbar)  
-5. Hauptteil:  
-   - **2–3 zentrale Stärken** aus dem Lebenslauf als SAR-Statements:  
-     *Situation* (Problem/Kontext) → *Aktion* (deine Maßnahme) → *Resultat* (quantifiziert).  
-   - **UVP-Satz**: „Meine Kombination aus [Fähigkeit A] + [Fähigkeit B] ermöglicht [konkreten Nutzen für Unternehmensziel aus der Anzeige].“  
-   - Bezug zu **3 Schlüsselwörtern** aus der Stellenanzeige (z. B. „OEM-Kunden“, „agile Transformation“)  
-6. Schluss:  
-   - „Gerne erläutere ich im Gespräch, wie ich [Unternehmensziel] vorantreiben kann.“  
-   - Kurzer Dank + Grußformel  
+▸ Struktur:
+1. Kopfbereich: Kontaktdaten, aktuelles Datum, Empfängeradresse
+2. Betreffzeile: „Bewerbung als [exakter Stellentitel] – [Referenznummer]“
+3. Persönliche Anrede (wenn Name fehlt: „Sehr geehrtes Recruiting Team von [Unternehmen]“)
+4. Einleitung: Persönliche Motivation und Bezug zum Unternehmen (inkl. Projekt, Wert oder Produkt – falls nennbar)
+5. Hauptteil:
+   - Zwei konkrete Stärken aus dem Lebenslauf, formuliert als SAR-Statements (Situation, Aktion, Resultat)
+   - Eine Soft Skill + Kontextbeispiel
+   - UVP-Satz: „Meine Kombination aus [Fähigkeit A] + [Fähigkeit B] ermöglicht [klaren Nutzen für das Unternehmensziel aus der Anzeige]“
+   - Bezug zu drei Schlüsselwörtern aus der Stellenanzeige
+6. Schluss:
+   - „Gerne erläutere ich im Gespräch, wie ich [konkretes Unternehmensziel] unterstützen kann.“
+   - Kurzer Dank, professionelle Grußformel
 
-▸ **Stilregeln**:  
-- Max. 1 Seite, aktiv formuliert („Ich initiierte…“, „Ich steigerte…“)  
-- **0 Floskeln** – stattdessen Fachjargon der Branche/Stellenanzeige  
-- Tonalität: Dynamisch-professionell (Vermeide Passivsätze wie „Es wurde umgesetzt…“)  
+▸ Stilregeln:
+- Maximal 1 DIN-A4-Seite
+- Aktive Formulierungen („Ich realisierte…“, „Ich steigerte…“)
+- Keine Floskeln – sondern Begriffe aus der Stellenanzeige und Branche
+- Ton: Professionell, klar, dynamisch
 
-▸ **Wichtig**:  
-- Antworte **nur mit dem finalen Fließtext**.  
-- Keine Markdown, Erklärungen oder Platzhalter.
+▸ Wichtige Regeln:
+- Antworte nur mit dem finalen Bewerbungsanschreiben als reiner Fließtext.
+- Keine Einleitungen, Erklärungen oder Formatierungen.
 `;
 
     const completion = await openai.chat.completions.create({

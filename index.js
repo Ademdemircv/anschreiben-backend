@@ -39,32 +39,35 @@ app.post('/generate', upload.fields([{ name: 'cv' }, { name: 'job' }]), async (r
     const jobText = await extractTextFromFile(req.files['job'][0]);
 
     const prompt = `
-Erstelle ein perfektes Anschreiben für die angehängte Stellenanzeige, basierend auf meinem Lebenslauf.
+Erstelle ein individuelles, fehlerfreies Anschreiben nach diesen Kriterien:
 
-📌 Halte dich an diese Struktur:
-1. Kopfbereich mit meinen Kontaktdaten, Datum und Empfängeradresse.
-2. Präziser Betreff (inkl. Stellenbezeichnung und Referenznummer, falls vorhanden).
-3. Persönliche Anrede (recherchieren; falls unbekannt: "Sehr geehrtes Team [Unternehmensname]").
-4. Einleitung: Begeisterung für das Unternehmen + Motivation für die Bewerbung.
-5. Hauptteil: 2–3 relevante Fähigkeiten aus meinem Lebenslauf mit konkretem Bezug zur Stellenanzeige und echten Beispielen.
-6. Schluss: Aktive Handlungsaufforderung (z. B. Einladung zum Gespräch), höflicher Abschluss.
-7. Formell korrekte Grußformel.
+▸ **Datenquellen**:  
+- Lebenslauf: ${cvText}  
+- Stellenanzeige: ${jobText}  
 
-📝 Stil & Regeln:
-- Max. 1 Seite
-- Keine Floskeln
-- Aktiv-Formulierungen (z. B. „Ich habe erreicht...“)
-- Klare, saubere Sprache (z. B. Arial 11pt)
-- Fehlerfrei
-- Individuell und passgenau auf die Stelle zugeschnitten
+▸ **Struktur**:  
+1. **Kopfbereich**: Meine Kontaktdaten, Datum, Empfängeradresse.  
+2. **Betreff**: „Bewerbung als [exakte Stellenbezeichnung] – [Referenznummer]“.  
+3. **Anrede**: Namen recherchieren (falls nicht möglich: „Sehr geehrtes Team [Unternehmen]“).  
+4. **Einleitung**:  
+   - Nenne 1 aktuelles Unternehmensprojekt/-wert aus der Stellenanzeige/Website.  
+   - Verknüpfe es mit meiner Motivation („Warum ihr?“ + „Warum ich?“).  
+5. **Hauptteil**:  
+   - **Top-2 Hard Skills** aus dem Lebenslauf, die exakt den „Must-Haves“ der Anzeige entsprechen – jeweils mit Story (Kontext + Aktion + Ergebnis).  
+   - **1 Soft Skill** + Beispiel, wie er im Job eingesetzt wird.  
+   - **UVP-Satz**: „Meine Kombination aus [X] + [Y] ermöglicht [konkreten Nutzen für das Unternehmen].“  
+6. **Schluss**:  
+   - „Ich würde gerne in einem Gespräch erläutern, wie ich [spezielles Unternehmensziel] unterstützen kann.“  
+   - Kurzer Dank.  
 
-📄 Daten zur Verarbeitung:
-Lebenslauf:
-${cvText}
+▸ **Regeln**:  
+- **1 Seite**, aktiv formuliert („Ich entwickelte…“, „Ich steigerte…“).  
+- **0 Floskeln** – stattdessen Keywords aus der Anzeige (z. B. „agile Prozesse“, „Kundenjourney“).  
+- **Design**: Wie Lebenslauf (Schriftart, Größe), keine Farben/Logos.  
+- **Tonalität**: Professionell, aber dynamisch (kein „sehr geehrte Damen und Herren“).  
 
-Stellenanzeige:
-${jobText}
-`;
+**Antworte NUR mit dem fertigen Anschreiben – keine Erklärungen oder Markdown.**
+    `;
 
     const completion = await openai.chat.completions.create({
       model: 'gpt-3.5-turbo',
